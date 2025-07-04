@@ -55,25 +55,39 @@ function mostFrequentMood(data) {
   return `Most frequent mood: "${most}"`;
 }
 
-// 4. Determine if caffeine helps focus (basic correlation)
+// 4. Determine if caffeine helps focus (extended analysis)
 function correlateCaffeineToFocus(data) {
   const totalCaffeine = data.reduce((sum, e) => sum + e.caffeineIntake, 0);
   const totalFocus = data.reduce((sum, e) => sum + e.focusLevel, 0);
   const avgCaffeine = totalCaffeine / data.length;
   const avgFocus = totalFocus / data.length;
 
+  const aboveAvg = data.filter(e => e.focusLevel > avgFocus).length;
+
   const highCaff = data.filter(e => e.caffeineIntake >= avgCaffeine);
   const lowCaff = data.filter(e => e.caffeineIntake < avgCaffeine);
 
-  const highAvgFocus = highCaff.reduce((s, e) => s + e.focusLevel, 0) / highCaff.length;
-  const lowAvgFocus = lowCaff.reduce((s, e) => s + e.focusLevel, 0) / lowCaff.length;
+  const highAvgFocus =
+    highCaff.reduce((s, e) => s + e.focusLevel, 0) / highCaff.length;
+  const lowAvgFocus =
+    lowCaff.reduce((s, e) => s + e.focusLevel, 0) / lowCaff.length;
 
-  return highAvgFocus > lowAvgFocus
-    ? "↑ More caffeine seems to increase focus."
-    : "↓ More caffeine doesn't improve focus.";
+  const correlationMessage =
+    highAvgFocus > lowAvgFocus
+      ? "↑ More caffeine seems to increase focus."
+      : "↓ More caffeine doesn't improve focus.";
+
+  return {
+    aboveAvgFocusDays: aboveAvg,
+    avgFocus,
+    avgCaffeine,
+    highAvgFocus,
+    lowAvgFocus,
+    correlationMessage,
+  };
 }
 
-// --- Дополнительные функции ---
+
 
 // 5. Day with best sleep (most hours)
 function bestSleepDay(data) {
