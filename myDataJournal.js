@@ -120,3 +120,22 @@ function totalCaffeine(data) {
   const total = data.reduce((sum, e) => sum + e.caffeineIntake, 0);
   return `Total caffeine this week: ${total} cups`;
 }
+
+// Calculates the average focus level over the entire week.
+// Input: an array of daily data objects, each containing a focusLevel.
+// Output: a string representing the average focus level, rounded to 1 decimal.
+function averageFocusLevel(data) {
+  const total = data.reduce((sum, e) => sum + e.focusLevel, 0);
+  return (total / data.length).toFixed(1);
+}
+
+module.exports = {
+  findHighestScreenTime,
+  averageSleep,
+  mostFrequentMood,
+  correlateCaffeineToFocus,
+  bestSleepDay,
+  averageFocusPerMood,
+  totalCaffeine,
+  averageFocusLevel,
+};
